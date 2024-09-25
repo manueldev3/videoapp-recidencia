@@ -10,14 +10,13 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   bool _openSettings = false;
-
   late VideoPlayerController _controller;
 
   @override
   void initState() {
     super.initState();
     _controller = VideoPlayerController.asset(
-      'assets/video_demo.mp4',
+      'assets/Avatar_Video3.mp4',
     )..initialize().then(
         (_) {
           setState(() {});
@@ -38,34 +37,29 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       body: Stack(
         children: [
-          SizedBox(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
-          ),
-          FittedBox(
-            fit: BoxFit.cover,
-            child: _controller.value.isInitialized
-                ? VideoPlayer(_controller)
-                : const Center(
-                    child: CircularProgressIndicator(),
+          // Ajustamos el video para que ocupe todo el alto de la pantalla
+          _controller.value.isInitialized
+              ? SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height,
+                  child: FittedBox(
+                    fit: BoxFit.cover,
+                    child: SizedBox(
+                      width: _controller.value.size.width,
+                      height: _controller.value.size.height,
+                      child: VideoPlayer(_controller),
+                    ),
                   ),
-          ),
-          Positioned.fill(
-            child: FittedBox(
-              fit: BoxFit.cover,
-              child: SizedBox(
-                width: _controller.value.aspectRatio *
-                    MediaQuery.of(context).size.height,
-                height: MediaQuery.of(context).size.height,
-                child: VideoPlayer(_controller),
-              ),
-            ),
-          ),
-          Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
-            color: Colors.black38,
-          ),
+                )
+              : const Center(
+                  child: CircularProgressIndicator(),
+                ),
+          // Agregamos la capa semitransparente si es necesario
+          // Positioned.fill(
+          //   child: Container(
+          //     color: const Color.fromARGB(96, 160, 160, 160),
+          //   ),
+          // ),
           Positioned(
             top: 0,
             left: 0,
@@ -82,21 +76,22 @@ class _HomePageState extends State<HomePage> {
                     });
                   },
                   icon: Icon(
+                    size: 50,
                     _openSettings ? Icons.close : Icons.settings,
                   ),
-                  color: Colors.white,
+                  color: const Color.fromARGB(255, 0, 38, 100),
                 ),
               ],
             ),
           ),
+          // Tus AnimatedPositioned Buttons siguen igual
           AnimatedPositioned(
-            duration: const Duration(
-              milliseconds: 300,
-            ),
-            top: 120,
-            left: _openSettings ? 0 : -120,
+            duration: const Duration(milliseconds: 300),
+            top: 220,
+            left: 0,
             child: FilledButton(
               style: FilledButton.styleFrom(
+                backgroundColor: const Color.fromARGB(255, 0, 38, 100),
                 shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.only(
                     topRight: Radius.circular(20),
@@ -105,17 +100,19 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               onPressed: () {},
-              child: const Text('Comida'),
+              child: const Text(
+                'Comida',
+                style: TextStyle(fontSize: 40),
+              ),
             ),
           ),
           AnimatedPositioned(
-            duration: const Duration(
-              milliseconds: 300,
-            ),
-            top: 120,
-            right: _openSettings ? 0 : -120,
+            duration: const Duration(milliseconds: 300),
+            top: 220,
+            right: 0,
             child: FilledButton(
               style: FilledButton.styleFrom(
+                backgroundColor: const Color.fromARGB(255, 0, 38, 100),
                 shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(20),
@@ -124,17 +121,19 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               onPressed: () {},
-              child: const Text('Horarios'),
+              child: const Text(
+                'Horarios',
+                style: TextStyle(fontSize: 40),
+              ),
             ),
           ),
           AnimatedPositioned(
-            duration: const Duration(
-              milliseconds: 300,
-            ),
-            top: 240,
-            left: _openSettings ? 0 : -120,
+            duration: const Duration(milliseconds: 300),
+            top: 440,
+            left: 0,
             child: FilledButton(
               style: FilledButton.styleFrom(
+                backgroundColor: const Color.fromARGB(255, 0, 38, 100),
                 shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.only(
                     topRight: Radius.circular(20),
@@ -143,17 +142,19 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               onPressed: () {},
-              child: const Text('Preguntas'),
+              child: const Text(
+                'Preguntas',
+                style: TextStyle(fontSize: 40),
+              ),
             ),
           ),
           AnimatedPositioned(
-            duration: const Duration(
-              milliseconds: 300,
-            ),
-            top: 240,
-            right: _openSettings ? 0 : -120,
+            duration: const Duration(milliseconds: 300),
+            top: 440,
+            right: 0,
             child: FilledButton(
               style: FilledButton.styleFrom(
+                backgroundColor: const Color.fromARGB(255, 0, 38, 100),
                 shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(20),
@@ -162,17 +163,17 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               onPressed: () {},
-              child: const Text('Info'),
+              child: const Text(
+                'Info',
+                style: TextStyle(fontSize: 40),
+              ),
             ),
           ),
+
           AnimatedPositioned(
-            duration: const Duration(
-              milliseconds: 300,
-            ),
+            duration: const Duration(milliseconds: 300),
             curve: Curves.linearToEaseOut,
-            bottom: _openSettings
-                ? -(MediaQuery.of(context).padding.bottom + 120)
-                : MediaQuery.of(context).padding.bottom + 16,
+            bottom: _openSettings ? -(MediaQuery.of(context).padding.bottom + 120) : MediaQuery.of(context).padding.bottom + 16,
             left: 0,
             right: 0,
             child: Row(
@@ -180,7 +181,10 @@ class _HomePageState extends State<HomePage> {
               children: [
                 IconButton.filled(
                   onPressed: () {},
-                  icon: const Icon(Icons.mic),
+                  icon: const Icon(
+                    Icons.mic,
+                    size: 60,
+                  ),
                 ),
               ],
             ),
